@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 // import axios from 'axios';
 
-class FormContainer extends Component {
+class FormInput extends Component {
   constructor(props) {
     super(props);
   }
 
   handleSubmit = (event) => {
-    const showDashBoard = this.props
     event.preventDefault();
+    // const showDashBoard = this.props
+    // console.log(event.target.data);
+    console.log('********', this.props)
+    this.props.showOutput();
   }
 
   handleChange = (event) => {
@@ -38,4 +41,4 @@ class FormContainer extends Component {
   }
 }
 
-export default FormContainer;
+export default FormInput;

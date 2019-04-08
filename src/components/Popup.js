@@ -1,22 +1,19 @@
 import React, { Component } from 'react';
-
+import { Modal, Button } from 'react-bootstrap';
 class Popup extends Component {
   constructor(props, context) {
     super(props, context);
 
-    this.handleShow = this.handleShow.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-
     this.state = {
-      show: false,
+      show: true,
     };
   }
 
-  handleClose() {
+  handleClose = () => {
     this.setState({ show: false });
   }
 
-  handleShow() {
+  handleShow = () => {
     this.setState({ show: true });
   }
 
