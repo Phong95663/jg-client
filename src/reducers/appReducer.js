@@ -1,13 +1,11 @@
-import { fromJS } from 'immutable';
-
-export const initialState = fromJS({
-
-});
+export const initialState = {
+  isShowDashboard: false
+};
 
 const appReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SHOW_DASHBOARD':
-      return state.set('isShowDashBoard', true)
+      return {isShowDashboard: true}
     default:
       return state;
   }

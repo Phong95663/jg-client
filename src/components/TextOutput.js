@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-class DashBoardContainer extends Component {
+class TextOutput extends Component {
   constructor(props) {
     super(props);
   }
 
   render(){
-    const text = this.props.text;
+    const text = this.props;
     return(
       <Container>
         <Row>
@@ -19,4 +19,4 @@ class DashBoardContainer extends Component {
   }
 }
 
-export default DashBoardContainer;
+export default TextOutput;
