@@ -4,24 +4,35 @@ import FormInput from '../components/FormInput';
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import TextOutput from '../components/TextOutput';
-import { showDashboard } from '../actions/actions';
+
+import {
+  showDashboard,
+  checkGrammars,
+  getTitleGrammar,
+} from '../actions/actions';
 
 export class App extends Component {
   constructor(props) {
     super(props);
   }
 
+  submit = values => {
+    this.props.checkGrammars(values);
+    this.props.showDashboard();
+  }
+
   render() {
-    const {isShowDashboard} = this.props;
-    console.log("aaaaaaa", this.props);
+    const { isShowDashboard } = this.props;
     return (
       <div className="App">
         <div>{isShowDashboard}</div>
-        <hr/>
-        <FormInput showDashboard={this.props.showDashboard} />
-        <hr/>
+        <hr />
+        <FormInput
+          onSubmit={this.submit}
+        />
+        <hr />
         {isShowDashboard && (
-          <TextOutput />
+          <TextOutput text={this.props.dataInput} />
         )}
       </div>
     );
@@ -33,11 +44,17 @@ App.defaultProps = {
 };
 
 const mapStateToProps = state => {
-  return {isShowDashboard: state.appReducer.isShowDashboard}
+  return {
+    isShowDashboard: state.appReducer.isShowDashboard,
+    grammars: state.appReducer.grammars,
+    input: state.appReducer.input
+  }
 }
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({
-    showDashboard
+    showDashboard,
+    checkGrammars,
+    getTitleGrammar,
   }, dispatch)
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App);

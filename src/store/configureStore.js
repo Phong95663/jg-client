@@ -2,16 +2,17 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import rootReducer from '../reducers';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from '../sagas';
+import thunk from 'redux-thunk';
 
-const sagaMiddleware = createSagaMiddleware();
+// const sagaMiddleware = createSagaMiddleware();
 
 export default function configureStore(initialState={}) {
   const store = createStore(rootReducer, initialState, compose(
-      applyMiddleware(sagaMiddleware),
+      applyMiddleware(thunk),
     window.devToolsExtension ? window.devToolsExtension() : f => f
     )
   );
-  sagaMiddleware.run(rootSaga);
+  // sagaMiddleware.run(rootSaga);
 
   if (module.hot) {
     module.hot.accept('../reducers', () => {
