@@ -10,11 +10,52 @@ import {
   checkGrammars,
   getTitleGrammar,
 } from '../actions/actions';
+import Login from "../components/Login";
+import base, { firebaseApp } from "../base";
+import firebase from "firebase";
+// import LoginComponent from '../components/Login';
 
 export class App extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      email: null,
+      displayName: null
+    };
   }
+
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.authHandler({ user });
+      }
+    });
+  }
+
+  authHandler = async authData => {
+    console.log(authData);
+    const user = authData.user;
+    console.log(user);
+    this.setState({
+      email: user.email,
+      displayName: user.displayName
+    });
+  };
+
+  authenticate = provider => {
+    console.log(provider);
+    const authProvider = new firebase.auth[`${provider}AuthProvider`]();
+    firebaseApp
+      .auth()
+      .signInWithPopup(authProvider)
+      .then(this.authHandler);
+  };
+
+  logout = async () => {
+    console.log("logout");
+    await firebase.auth().signOut();
+    this.setState({ email: null, displayName: null });
+  };
 
   submit = values => {
     this.props.checkGrammars(values);
@@ -22,9 +63,13 @@ export class App extends Component {
   }
 
   render() {
-    const { isShowDashboard } = this.props;
+    const { isShowDashboard, input, grammars } = this.props;
+    if (!this.state.email) {
+      return <Login authenticate={this.authenticate} />;
+    }
     return (
       <div className="App">
+        {/* <LoginComponent   /> */}
         <div>{isShowDashboard}</div>
         <hr />
         <FormInput
@@ -32,7 +77,7 @@ export class App extends Component {
         />
         <hr />
         {isShowDashboard && (
-          <TextOutput text={this.props.dataInput} />
+          <TextOutput text={input} grammars={grammars} />
         )}
       </div>
     );

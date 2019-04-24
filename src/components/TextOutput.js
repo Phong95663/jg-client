@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
+
 const TextOutput = props => {
-  const { text } = props;
+  const { text, grammars } = props;
   return (
     <Container>
       <Row>

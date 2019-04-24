@@ -8,14 +8,13 @@ export const checkGrammars = (input) => {
   return(dispatch) => {
     return client.post('/grammar_check', input).then(res => {
       console.log("*******", res.data);
-      dispatch(fetchGrammars(input, res.data));
+      dispatch(fetchGrammars(res.data));
     })
   }
 }
 
-export const fetchGrammars = (input, grammars) => ({
+export const fetchGrammars = (grammars) => ({
   type: 'FETCH_GRAMMARS',
-  input,
   grammars
 })
 
