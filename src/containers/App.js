@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import './App.css';
+import { Container } from 'react-bootstrap';
+import '../style/App.css';
 import FormInput from '../components/FormInput';
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import TextOutput from '../components/TextOutput';
+import NavBarComponent from '../components/Navbar';
+import GrammarDetailList from '../components/GrammarDetailList';
+import { Route } from 'react-router-dom';
 
 import {
   showDashboard,
@@ -19,6 +23,7 @@ export class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLogin: false,
       email: null,
       displayName: null
     };
@@ -68,18 +73,21 @@ export class App extends Component {
       return <Login authenticate={this.authenticate} />;
     }
     return (
-      <div className="App">
-        {/* <LoginComponent   /> */}
+      <Container className="App">
+        <NavBarComponent isLogin={true} />
+        <GrammarDetailList />
         <div>{isShowDashboard}</div>
-        <hr />
+        <br/>
         <FormInput
           onSubmit={this.submit}
         />
-        <hr />
         {isShowDashboard && (
-          <TextOutput text={input} grammars={grammars} />
+          <div>
+            <hr />
+            <TextOutput text={input} grammars={grammars} />
+          </div>
         )}
-      </div>
+      </Container>
     );
   }
 }

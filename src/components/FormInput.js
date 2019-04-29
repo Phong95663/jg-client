@@ -8,7 +8,7 @@ class FormInput extends Component {
   renderField = ({ input, label }) => (
     <Form.Group>
       <Form.Label>{label}</Form.Label>
-      <Form.Control {... input} as="textarea" row="3" placeholder="Enter sentence" />
+      <Form.Control {... input} as="textarea" rows="7" placeholder="Nhập văn bản tiếng Nhật" />
     </Form.Group>
   )
 
@@ -19,9 +19,13 @@ class FormInput extends Component {
         <Row>
           <Col>
             <Form onSubmit={handleSubmit}>
-              <Field name='data' component={this.renderField} label="Grammar check" />
+              <h4>
+                <b>
+                  <Field name='data' component={this.renderField} label="Phân tích ngữ pháp" />
+                </b>
+              </h4>
               <Button variant="primary" type="submit">
-                Submit
+                Phân tích
               </Button>
             </Form>
           </Col>
