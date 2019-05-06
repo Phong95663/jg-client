@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-
+import TextWrapper from './TextWrapper';
+import GrammarDetailList from './GrammarDetailList';
 
 const TextOutput = props => {
-  const { text, grammars } = props;
-  // console.log("1111111", grammars);
-  const list = grammars.map(grammar => grammar.title);
-  const listGrammars = list.map((grammar, index) =>
-    <span key={index}>
+  const { grammars } = props;
+  const listGrammars = grammars.map((grammar) =>
+    <span key={grammar.id}>
       <Col>
-        <a href="#">{grammar}</a>
+        <TextWrapper text={grammar.title} />
       </Col>
     </span>
   );

@@ -7,12 +7,20 @@ import { bindActionCreators } from 'redux';
 import TextOutput from '../components/TextOutput';
 import NavBarComponent from '../components/Navbar';
 import GrammarDetailList from '../components/GrammarDetailList';
-import { Route } from 'react-router-dom';
+import FavoriteList from '../components/FavoriteList';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Alert from '../components/Alert';
 
 import {
   showDashboard,
   checkGrammars,
+  getGrammars,
   getTitleGrammar,
+  fetchFavorite,
+  setUid,
+  closeAlert,
+  setAlertContent,
+  showAlert,
 } from '../actions/actions';
 import Login from "../components/Login";
 import base, { firebaseApp } from "../base";
@@ -35,12 +43,19 @@ export class App extends Component {
         this.authHandler({ user });
       }
     });
+
+    // console.log('abc-------', this.props.uid)
+    // this.props.fetchFavorite(this.props.uid)
+
   }
 
   authHandler = async authData => {
     console.log(authData);
     const user = authData.user;
+
     console.log(user);
+    this.props.setUid(user.uid)
+    this.props.fetchFavorite(this.props.uid)
     this.setState({
       email: user.email,
       displayName: user.displayName
@@ -68,25 +83,35 @@ export class App extends Component {
   }
 
   render() {
-    const { isShowDashboard, input, grammars } = this.props;
+    const { isShowDashboard, input, grammars, grammarsByTitle, isFavoritePage, fetchFavorite, title } = this.props;
+    const homePage = () => {
+      return (
+        <div>
+          <FormInput
+            onSubmit={this.submit}
+          />
+          {isShowDashboard && (
+            <div>
+              <hr />
+              <TextOutput text={input} grammars={grammars} />
+            </div>
+          )}
+          <Alert
+            isShowAlert={this.props.isShowAlert}
+            text={this.props.contentAlert}
+          />
+        </div>
+      )
+    }
     if (!this.state.email) {
       return <Login authenticate={this.authenticate} />;
     }
     return (
       <Container className="App">
-        <NavBarComponent isLogin={true} />
-        <GrammarDetailList />
-        <div>{isShowDashboard}</div>
-        <br/>
-        <FormInput
-          onSubmit={this.submit}
-        />
-        {isShowDashboard && (
-          <div>
-            <hr />
-            <TextOutput text={input} grammars={grammars} />
-          </div>
-        )}
+        <NavBarComponent isLogin={true} fetchFavorite={fetchFavorite} />
+        <br />
+        {title == "Phân tích ngữ pháp" ? <FavoriteList /> : homePage()}
+        <GrammarDetailList grammarsByTitle={grammarsByTitle} />
       </Container>
     );
   }
@@ -100,14 +125,25 @@ const mapStateToProps = state => {
   return {
     isShowDashboard: state.appReducer.isShowDashboard,
     grammars: state.appReducer.grammars,
-    input: state.appReducer.input
+    uid: state.appReducer.uid,
+    grammarsByTitle: state.appReducer.grammarsByTitle,
+    input: state.appReducer.input,
+    isFavoritePage: state.appReducer.isFavoritePage,
+    title: state.appReducer.title
   }
 }
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({
     showDashboard,
     checkGrammars,
+    getGrammars,
     getTitleGrammar,
+    fetchFavorite,
+    setUid,
+    fetchFavorite,
+    closeAlert,
+    setAlertContent,
+    showAlert,
   }, dispatch)
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App);
