@@ -35,7 +35,8 @@ const appReducer = (state = initialState, action) => {
     case 'FETCH_GRAMMARS_BY_TITLE':
       return {
         ...state,
-        grammarsByTitle: action.grammars
+        grammarsByTitle: action.grammars,
+        input: action.input
       }
     case 'FETCH_FAVORITE_SUCCESS':
       return {
@@ -75,7 +76,9 @@ const appReducer = (state = initialState, action) => {
     //   // return { ...state, grammar: newGrammar, favorite: new_Favorite }
     //   return {...state}
     case 'RELOAD_STATE':
-      return { ...state,  grammar: [], isShowDashboard: false }
+      return { ...state, grammar: [], isShowDashboard: false }
+    case 'RELOAD_GRAMMARS':
+      return { ...state, grammars: [], isShowDashboard: false }
     case 'SHOW_ALERT':
       return { ...state, isShowAlert: true }
     case 'CLOSE_ALERT':

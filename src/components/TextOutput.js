@@ -10,6 +10,7 @@ const TextOutput = props => {
       <Col>
         <TextWrapper text={grammar.title} />
       </Col>
+
     </span>
   );
 

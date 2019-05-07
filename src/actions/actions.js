@@ -18,16 +18,17 @@ export const fetchGrammars = (grammars) => ({
   grammars
 })
 
-export const fetchGrammarsByTitle = (grammars) => ({
+export const fetchGrammarsByTitle = (grammars, input) => ({
   type: 'FETCH_GRAMMARS_BY_TITLE',
-  grammars
+  grammars,
+  input
 })
 
 export const getGrammars = (input) => {
   return (dispatch) => {
     return client.post('/get_grammar', input).then(res => {
       console.log("*******", res.data);
-      dispatch(fetchGrammarsByTitle(res.data));
+      dispatch(fetchGrammarsByTitle(res.data, input));
     })
   }
 }
@@ -81,6 +82,10 @@ export const fetchFavorite = (uid) => {
 export const fetchFavoriteSuccess = (favorites) => ({
   type: 'FETCH_FAVORITE_SUCCESS',
   favorites
+})
+
+export const reloadGramamrs = () => ({
+  type: 'RELOAD_GRAMMARS',
 })
 
 export const fetchDetailFavorite = (id, favorite_id) => {

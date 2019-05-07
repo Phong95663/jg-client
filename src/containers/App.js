@@ -21,6 +21,7 @@ import {
   closeAlert,
   setAlertContent,
   showAlert,
+  reloadGramamrs
 } from '../actions/actions';
 import Login from "../components/Login";
 import base, { firebaseApp } from "../base";
@@ -77,9 +78,15 @@ export class App extends Component {
     this.setState({ email: null, displayName: null });
   };
 
-  submit = values => {
-    this.props.checkGrammars(values);
-    this.props.showDashboard();
+  submit = async (values) => {
+    await this.props.reloadGramamrs()
+    await this.props.checkGrammars(values);
+    if (this.props.grammars.length == 0) {
+      await this.props.setAlertContent("Không phân tích được ngữ pháp");
+      await this.props.showAlert();
+    } else {
+      await this.props.showDashboard();
+    }
   }
 
   render() {
@@ -144,6 +151,7 @@ const mapDispatchToProps = dispatch => {
     closeAlert,
     setAlertContent,
     showAlert,
+    reloadGramamrs
   }, dispatch)
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App);
